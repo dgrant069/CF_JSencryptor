@@ -14,31 +14,45 @@
     <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
 
     <script>
+      var button = document.getElementById('encrypt');
+
       var encoder = {
         setMessage: function() {
-
+          this.message = document.getElementById('message').value;
+          console.log(this.message);
         },
+
         getPassword: function() {
-
+          this.password = prompt("Please enter password:");
+          console.log(this.password);
         },
+
         setUrl: function() {
-
+          this.url =  encoder.encrypt();
+          console.log(this.url);
         },
+
         replaceMessageWithUrl: function () {
-
+          document.getElementById('message').value = "Copy/paste this into the browser's URL:\n" + document.URL.replace("index.html", "decode.html").toString() + "?" + this.url;
         },
+
         encrypt: function() {
           cypher = CryptoJS.AES.encrypt(this.message, this.password)
           console.log("Verified: " +
             CryptoJS.AES.decrypt(cypher, this.password).toString(CryptoJS.enc.Utf8))
           return cypher
         },
+
         protect: function() {
           this.setMessage()
           this.getPassword()
           this.setUrl()
           this.replaceMessageWithUrl()
         }
+      }
+
+      button.onclick = function(){
+        encoder.protect();
       }
     </script>
   </body>
